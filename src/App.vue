@@ -1,32 +1,92 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+      clipped-left
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Cerensa Logo"
+          class="shrink mr-2"
+          contain
+          src="./assets/logo.png"
+          transition="scale-transition"
+          width="140"
+          />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <div class="d-flex align-center" style="margin-left: 20px">
+        <v-btn
+            @click="$vuetify.theme.dark = !$vuetify.theme.dark"
+            elevation="3"
+            fab
+            icon
+        >
+          <v-icon>
+            mdi-theme-light-dark
+          </v-icon>
+        </v-btn>
+      </div>
+    </v-app-bar>
+    <v-navigation-drawer
+        expand-on-hover
+        bottom
+        app
+        clipped
+    >
+      <v-list shaped>
+        <v-list-item link to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Inicio</v-list-item-title>
+        </v-list-item>
+
+        <v-list-group prepend-icon="mdi-account-multiple">
+          <template #activator>
+            <v-list-item>
+              <v-list-item-title>Pessoas</v-list-item-title>
+            </v-list-item>
+          </template>
+
+          <v-list-item link to="/pessoas">
+            <v-list-item-icon>
+              <v-icon>mdi-format-list-bulleted</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Lista Pessoas
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item link to="/pessoa/nova">
+            <v-list-item-icon>
+              <v-icon>mdi-account-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Adicionar Pessoa
+            </v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+    <NotificationCenter />
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+import NotificationCenter from "./components/Notificacao/NotificationCenter";
+export default {
+  name: 'App',
+  components: {NotificationCenter}
+};
+</script>
