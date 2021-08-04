@@ -15,6 +15,11 @@
           class="elevation-2 data-table"
           @click:row="toPessoaInfo"
       >
+        <template #item.birthDate="{ item }">
+          {{
+            `${new Date(item.birthDate).getDate()}/${new Date(item.birthDate).getMonth() + 1}/${new Date(item.birthDate).getFullYear()}`
+          }}
+        </template>
         <template #item.actions="{ item }">
           <v-icon
               @click.stop="deleteAction(item)"
@@ -77,7 +82,7 @@ export default {
       { text: 'Tipo', value: 'type' },
       { text: 'Documento Federal', value: 'federalDocument' },
       { text: 'Documento do Estado', value: 'stateDocument' },
-      { text: 'Data Nascimento', value: 'birthDate' },
+      { text: 'Data Nascimento/Constituição', value: 'birthDate' },
       { text: 'Cidade', value: 'city', sortable: false },
       { text: 'Estado', value: 'state', sortable: false },
       { text: '', value: 'actions', sortable: false }
@@ -103,12 +108,16 @@ export default {
       this.loading = true
       let search = null
       if (this.searchName) {
-        search = { name: `%${this.searchName}%` }
+        search = { name: [...this.searchName].filter(
+            word => word === ' ').length > 1
+              ? this.searchName
+              : `%${this.searchName}%`
+        }
       }
       this.$store.dispatch("fetchPessoas", {
         ...search,
         pageSize: this.options.itemsPerPage !== -1 ? this.options.itemsPerPage : this.totalPessoas,
-        pageNumber: this.options.page !== -1 ? this.options.page : 0,
+        pageNumber: this.options.page !== -1 ? this.options.page - 1 : 0,
         sort: this.options.sortBy[0] ? `${this.options.sortBy[0]}:${this.options.sortDesc[0] ? 'asc' : 'desc'}` : ''
       })
           .then(() => {
