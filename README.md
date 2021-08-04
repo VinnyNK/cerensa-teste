@@ -8,7 +8,7 @@
 npm install
 ```
 
-###2 passo
+### 2 passo
 ####Alterar servidor do HOST da API
 ```
 Alteração deve ser realizada no arquivo .env (no momento esta setado: https://api-test.cerensa.com/v3/talents) 
